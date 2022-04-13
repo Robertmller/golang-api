@@ -11,4 +11,5 @@
 - `go run main.go`
 
 ## Running with Docker:
+- `docker build --tag golang-api .`
 - `docker run -d -p 8000:8000 golang-api`
