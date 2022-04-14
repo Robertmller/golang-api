@@ -3,6 +3,7 @@
 ### Tecnologies used:
 - Golang 1.16.7
 - Gorilla mux
+- GORM (ORM)
 
 
 ## How to run:
