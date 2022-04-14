@@ -7,8 +7,8 @@
 
 ## How to run:
 
-- `go build`
-- `go run main.go`
+- `go build cmd/main/main.go`
+- `go run cmd/main/main.go`
 
 ## Running with Docker:
 - `docker build --tag golang-api .`
