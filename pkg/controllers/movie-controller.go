@@ -70,16 +70,19 @@ func UpdateMovie(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("error while parsing")
 	}
-	movieDetails, _ := models.GetMovieById(ID)
-	if updateMovie.Name != "" {
-		movieDetails.Name = updateMovie.Name
+
+	movieDetails, db := models.GetMovieById(ID)
+
+	if updateMovie.Title != "" {
+		movieDetails.Title = updateMovie.Title
 	}
-	if updateMovie.Author != "" {
-		movieDetails.Author = updateMovie.Author
+	if updateMovie.Imdb != "" {
+		movieDetails.Imdb = updateMovie.Imdb
 	}
-	if updateMovie.Publication != "" {
-		movieDetails.Publication = updateMovie.Publication
+	if updateMovie.Director != "" {
+		movieDetails.Director = updateMovie.Director
 	}
+	db.Save(&movieDetails)
 
 	res, _ := json.Marshal(movieDetails)
 	w.Header().Set("Content-Type", "pkgplication/json")

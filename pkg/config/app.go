@@ -10,8 +10,8 @@ var (
 )
 
 func Connect() {
-	//database, user, password, table
-	d, err := gorm.Open("mysql", "root:098@692@/golangApi?charset=utf8&parseTime=True&loc=Local")
+
+	d, err := gorm.Open("mysql", "USER_DB:PASSWORD_DB@tcp(HOST_DB:PORT_DB)/TABLE_DB?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		panic(err)
 	}

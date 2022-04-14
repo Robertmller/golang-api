@@ -10,9 +10,9 @@ var db *gorm.DB
 
 type Movie struct {
 	gorm.Model
-	Name        string `gorm:"" json:"name"`
-	Author      string `json:"author"`
-	Publication string `json:"publication"`
+	Title    string `gorm:"" json:"title"`
+	Imdb     string `json:"imdb"`
+	Director string `json:"director"`
 }
 
 func init() {
@@ -36,7 +36,7 @@ func GetAllMovies() []Movie {
 
 func GetMovieById(Id int64) (*Movie, *gorm.DB) {
 	var getMovie Movie
-	db := db.Where("ID=?", Id).Find(getMovie)
+	db := db.Where("ID=?", Id).Find(&getMovie)
 	return &getMovie, db
 }
 
