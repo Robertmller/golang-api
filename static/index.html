@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Documentation API</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+<body>
+    <center> <h1> Golang API </h1></center>
+
+    <h2> Tecnologies Used: </h2>
+    <ul>
+        <li> Golang:1.16.7 </li>
+        <br>
+        <li> Gorilla Mux</li>
+        <br>
+        <li> GORM </li>
+        <br>
+        <li> MySQL</li>
+
+    </ul>
+
+    <h2> How to run:</h2>
+    <ul>
+        <li> go build cmd/main/main.go</li>
+        <br>
+        <li> go run cmd/main/main.go </li>
+
+    </ul>
+
+    <h2> Running with Docker: </h2>
+    <ul>
+        <li> docker build --tag golang-api .</li>
+        <br>
+        <li> docker run -d -p 8000:8000 golang-api</li>
+    </ul>
+
+    <h3> Routes </h3>
+    <ul>
+        <li> <b> /movies/ </b> - GET ALL MOVIES</li>
+        <li> <b> /movie/id </b> - GET ONE MOVIE</li>
+        <li> <b> /movie/ </b> - POST ONE MOVIE</li>
+        <li> <b> /movie/id </b> - PUT ONE MOVIE</li>
+        <li> <b> /movie/id </b> - DELETE ONE MOVIE</li>
+
+    </ul>
+
+</body>
+</html>

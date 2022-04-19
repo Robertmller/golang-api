@@ -13,3 +13,10 @@
 ## Running with Docker:
 - `docker build --tag golang-api .`
 - `docker run -d -p 8000:8000 golang-api`
+
+## Routes:
+- `/movies/` - GET ALL MOVIES
+- `/movie/id` - GET ONE MOVIE
+- `/movie/` -  POST ONE MOVIE
+- `/movie/id` - PUT ONE MOVIE
+- `/movie/id` - DELETE ONE MOVIE
