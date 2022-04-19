@@ -9,10 +9,19 @@ import (
 	"golang-api/pkg/models"
 	"golang-api/pkg/utils"
 
+	"path"
+
 	"github.com/gorilla/mux"
 )
 
 var NewMovie models.Movie
+
+func Index(w http.ResponseWriter, r *http.Request) {
+	p := path.Dir("./static/index.html")
+	// set header
+	w.Header().Set("Content-type", "text/html")
+	http.ServeFile(w, r, p)
+}
 
 func GetAllMovies(w http.ResponseWriter, r *http.Request) {
 	newMovies := models.GetAllMovies()
