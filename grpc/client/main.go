@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	pb "golang-api/grpc/pb"
 	"log"
 	"time"
@@ -48,4 +49,11 @@ func main() {
 		DIRECTOR: %s
 		ID: %d`, r.GetTitle(), r.GetImageUrl(), r.GetImdb(), r.GetReleaseYear(), r.GetGender(), r.GetDuration(), r.GetDirector(), r.GetId())
 	}
+	params := &pb.GetMoviesParams{}
+	r, err := c.GetMovies(ctx, params)
+	if err != nil {
+		log.Fatalf("could not retrieve movies: %v", err)
+	}
+	log.Print("\n MOVIE LIST: \n")
+	fmt.Printf("r.GetMovies(): %v \n", r.GetMovies())
 }

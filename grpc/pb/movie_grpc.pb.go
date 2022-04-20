@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MovieManagerClient interface {
 	CreateNewMovie(ctx context.Context, in *NewMovie, opts ...grpc.CallOption) (*Movie, error)
+	GetMovies(ctx context.Context, in *GetMoviesParams, opts ...grpc.CallOption) (*MovieList, error)
 }
 
 type movieManagerClient struct {
@@ -42,11 +43,21 @@ func (c *movieManagerClient) CreateNewMovie(ctx context.Context, in *NewMovie, o
 	return out, nil
 }
 
+func (c *movieManagerClient) GetMovies(ctx context.Context, in *GetMoviesParams, opts ...grpc.CallOption) (*MovieList, error) {
+	out := new(MovieList)
+	err := c.cc.Invoke(ctx, "/MovieManager/GetMovies", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MovieManagerServer is the server API for MovieManager service.
 // All implementations must embed UnimplementedMovieManagerServer
 // for forward compatibility
 type MovieManagerServer interface {
 	CreateNewMovie(context.Context, *NewMovie) (*Movie, error)
+	GetMovies(context.Context, *GetMoviesParams) (*MovieList, error)
 	mustEmbedUnimplementedMovieManagerServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedMovieManagerServer struct {
 
 func (UnimplementedMovieManagerServer) CreateNewMovie(context.Context, *NewMovie) (*Movie, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateNewMovie not implemented")
+}
+func (UnimplementedMovieManagerServer) GetMovies(context.Context, *GetMoviesParams) (*MovieList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMovies not implemented")
 }
 func (UnimplementedMovieManagerServer) mustEmbedUnimplementedMovieManagerServer() {}
 
@@ -88,6 +102,24 @@ func _MovieManager_CreateNewMovie_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MovieManager_GetMovies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMoviesParams)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MovieManagerServer).GetMovies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MovieManager/GetMovies",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MovieManagerServer).GetMovies(ctx, req.(*GetMoviesParams))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MovieManager_ServiceDesc is the grpc.ServiceDesc for MovieManager service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var MovieManager_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateNewMovie",
 			Handler:    _MovieManager_CreateNewMovie_Handler,
+		},
+		{
+			MethodName: "GetMovies",
+			Handler:    _MovieManager_GetMovies_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
