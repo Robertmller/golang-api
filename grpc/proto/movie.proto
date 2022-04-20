@@ -6,6 +6,8 @@ option go_package = "grpc/pb";
 
 service MovieManager{
     rpc CreateNewMovie (NewMovie) returns (Movie) {}
+    rpc GetMovies (GetMoviesParams) returns (MovieList) {}
+
 }
 
 
@@ -29,3 +31,25 @@ message Movie{
     string director = 7;
     int32 id = 8;
 }
+
+message GetMoviesParams{
+
+}
+
+
+message MovieList{
+    repeated Movie movies = 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	pb "golang-api/grpc/pb"
 	"log"
 	"time"
@@ -28,8 +29,9 @@ func main() {
 
 	var new_movie = make(map[string]string)
 
-	new_movie["Star Wars"] = "http://test"
-	new_movie["Star Wars 2"] = "http://test-2"
+	new_movie["Star-Wars: A new Hope"] = "https://meufilme.com/starwars4"
+	new_movie["Star-Wars: The Empire Strike Back"] = "https://meufilme.com/starwars5"
+	new_movie["Star-Wars: Jedi Return"] = "https://meufilme.com/starwars6"
 
 	for title, imageUrl := range new_movie {
 		r, err := c.CreateNewMovie(ctx, &pb.NewMovie{Title: title, ImageUrl: imageUrl})
@@ -39,7 +41,19 @@ func main() {
 		log.Printf(`movie details
 		
 		TITLE: %s
-		IMAGEURL: %d
-		ID: %d`, r.GetTitle(), r.GetImageUrl(), r.GetId())
+		IMAGEURL: %s
+		IMDB: %g
+		RELEASEYEAR: %d
+		GENDER: %s
+		DURATION: %s
+		DIRECTOR: %s
+		ID: %d`, r.GetTitle(), r.GetImageUrl(), r.GetImdb(), r.GetReleaseYear(), r.GetGender(), r.GetDuration(), r.GetDirector(), r.GetId())
 	}
+	params := &pb.GetMoviesParams{}
+	r, err := c.GetMovies(ctx, params)
+	if err != nil {
+		log.Fatalf("could not retrieve movies: %v", err)
+	}
+	log.Print("\n MOVIE LIST: \n")
+	fmt.Printf("r.GetMovies(): %v \n", r.GetMovies())
 }
