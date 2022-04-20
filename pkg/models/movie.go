@@ -10,13 +10,13 @@ var db *gorm.DB
 
 type Movie struct {
 	gorm.Model
-	Title       string `gorm:"" json:"title"`
-	ImageURL    string `json:"imageUrl"`
-	Imdb        string `json:"imdb"`
-	ReleaseYear string `json:"release_year"`
-	Gender      string `json:"gender"`
-	Duration    string `json:"duration"`
-	Director    string `json:"director"`
+	Title       string  `gorm:"" json:"title"`
+	ImageURL    string  `json:"imageUrl"`
+	Imdb        float32 `json:"imdb"`
+	ReleaseYear int32   `json:"release_year"`
+	Gender      string  `json:"gender"`
+	Duration    string  `json:"duration"`
+	Director    string  `json:"director"`
 }
 
 func init() {

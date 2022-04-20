@@ -8,6 +8,7 @@ golang-api
 main
 .env
 .vscode
+proto.txt
 
 # Test binary, built with `go test -c`
 *.test

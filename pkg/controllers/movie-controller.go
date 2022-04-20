@@ -85,7 +85,7 @@ func UpdateMovie(w http.ResponseWriter, r *http.Request) {
 	if updateMovie.Title != "" {
 		movieDetails.Title = updateMovie.Title
 	}
-	if updateMovie.Imdb != "" {
+	if updateMovie.Imdb != float32(0.0) {
 		movieDetails.Imdb = updateMovie.Imdb
 	}
 	if updateMovie.Director != "" {

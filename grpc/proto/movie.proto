@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option go_package = "grpc/pb";
+
+
+
+service MovieManager{
+    rpc CreateNewMovie (NewMovie) returns (Movie) {}
+}
+
+
+message NewMovie {
+    string title = 1;
+    string imageUrl = 2;
+    float imdb = 3;
+    int32 releaseYear = 4;
+    string gender = 5;
+    string duration = 6;
+    string director = 7;
+}
+
+message Movie{
+    string title = 1;
+    string imageUrl = 2;
+    float imdb = 3;
+    int32 releaseYear = 4;
+    string gender = 5;
+    string duration = 6;
+    string director = 7;
+    int32 id = 8;
+}
