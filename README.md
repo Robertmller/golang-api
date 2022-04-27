@@ -4,6 +4,8 @@
 - Golang 1.16.7
 - Gorilla mux
 - GORM (ORM)
+- GRPC
+- KAFKA
 
 
 ## How to run:
