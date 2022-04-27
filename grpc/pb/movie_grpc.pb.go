@@ -24,6 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 type MovieManagerClient interface {
 	CreateNewMovie(ctx context.Context, in *NewMovie, opts ...grpc.CallOption) (*Movie, error)
 	GetMovies(ctx context.Context, in *GetMoviesParams, opts ...grpc.CallOption) (*MovieList, error)
+	DeleteMovie(ctx context.Context, in *DeleteMovieRequest, opts ...grpc.CallOption) (*MovieList, error)
+	UpdateMovie(ctx context.Context, in *UpdateMovieRequest, opts ...grpc.CallOption) (*Movie, error)
 }
 
 type movieManagerClient struct {
@@ -52,12 +54,32 @@ func (c *movieManagerClient) GetMovies(ctx context.Context, in *GetMoviesParams,
 	return out, nil
 }
 
+func (c *movieManagerClient) DeleteMovie(ctx context.Context, in *DeleteMovieRequest, opts ...grpc.CallOption) (*MovieList, error) {
+	out := new(MovieList)
+	err := c.cc.Invoke(ctx, "/MovieManager/DeleteMovie", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *movieManagerClient) UpdateMovie(ctx context.Context, in *UpdateMovieRequest, opts ...grpc.CallOption) (*Movie, error) {
+	out := new(Movie)
+	err := c.cc.Invoke(ctx, "/MovieManager/UpdateMovie", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MovieManagerServer is the server API for MovieManager service.
 // All implementations must embed UnimplementedMovieManagerServer
 // for forward compatibility
 type MovieManagerServer interface {
 	CreateNewMovie(context.Context, *NewMovie) (*Movie, error)
 	GetMovies(context.Context, *GetMoviesParams) (*MovieList, error)
+	DeleteMovie(context.Context, *DeleteMovieRequest) (*MovieList, error)
+	UpdateMovie(context.Context, *UpdateMovieRequest) (*Movie, error)
 	mustEmbedUnimplementedMovieManagerServer()
 }
 
@@ -70,6 +92,12 @@ func (UnimplementedMovieManagerServer) CreateNewMovie(context.Context, *NewMovie
 }
 func (UnimplementedMovieManagerServer) GetMovies(context.Context, *GetMoviesParams) (*MovieList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMovies not implemented")
+}
+func (UnimplementedMovieManagerServer) DeleteMovie(context.Context, *DeleteMovieRequest) (*MovieList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteMovie not implemented")
+}
+func (UnimplementedMovieManagerServer) UpdateMovie(context.Context, *UpdateMovieRequest) (*Movie, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateMovie not implemented")
 }
 func (UnimplementedMovieManagerServer) mustEmbedUnimplementedMovieManagerServer() {}
 
@@ -120,6 +148,42 @@ func _MovieManager_GetMovies_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MovieManager_DeleteMovie_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteMovieRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MovieManagerServer).DeleteMovie(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MovieManager/DeleteMovie",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MovieManagerServer).DeleteMovie(ctx, req.(*DeleteMovieRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MovieManager_UpdateMovie_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateMovieRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MovieManagerServer).UpdateMovie(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MovieManager/UpdateMovie",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MovieManagerServer).UpdateMovie(ctx, req.(*UpdateMovieRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MovieManager_ServiceDesc is the grpc.ServiceDesc for MovieManager service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -134,6 +198,14 @@ var MovieManager_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetMovies",
 			Handler:    _MovieManager_GetMovies_Handler,
+		},
+		{
+			MethodName: "DeleteMovie",
+			Handler:    _MovieManager_DeleteMovie_Handler,
+		},
+		{
+			MethodName: "UpdateMovie",
+			Handler:    _MovieManager_UpdateMovie_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
